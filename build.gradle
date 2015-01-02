@@ -1,0 +1,30 @@
+plugins{
+	id 'groovy'
+	id 'nebula.nebula-release' version '2.2.1'
+	id 'maven-publish'
+}
+
+group 'com.github.rzabini'
+
+repositories{
+	mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+	compile 'de.undercouch:gradle-download-task:1.2'
+}
+
+publishing {
+        publications {
+            
+            plugin(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+wrapper {
+	gradleVersion = '2.1'
+}
