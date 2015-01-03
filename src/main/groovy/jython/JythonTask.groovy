@@ -21,7 +21,7 @@ class JythonTask extends JavaExec {
 		}
 		
 		void script(script){
-			if(aScript instanceof File)
+			if(script instanceof File)
 				args script
 			else
 				args "-c", script
