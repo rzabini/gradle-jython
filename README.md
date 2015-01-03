@@ -30,7 +30,7 @@ apply plugin:'com.github.rzabini.gradle-jython'
  **JVM Compatibility:**
 Java 7 and above (as requested by Jython 2.7)
 
-# Tasks
+## Tasks
 The plugin adds the `jython.JythonTask` task type to your projects, which allows you to run a Jython script.
 
 ## Configuration
@@ -46,6 +46,8 @@ task testJython(type:jython.JythonTask) {
 	script sayHello
 }
 ```
+# Acknowledgements
+This plugin uses the [gradle-download-task](https://github.com/michel-kraemer/gradle-download-task) by Michel Krämer
 
 # License
 This plugin is available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
