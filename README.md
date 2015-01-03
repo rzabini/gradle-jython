@@ -6,10 +6,10 @@ This plugin is still in dev stage, so it is not in any public repository.
 To use it, clone the repository from https://github.com/rzabini/gradle-jython.git and install it in the local Maven repository.
 
 ```
-	clone https://github.com/rzabini/gradle-jython.git
-	cd gradle-jython
-	gradlew publishToMavenLocal
-
+clone https://github.com/rzabini/gradle-jython.git
+cd gradle-jython
+gradlew publishToMavenLocal
+```
 
 To use the plugin, configure your `build.gradle` script and add the plugin:
 ```groovy
