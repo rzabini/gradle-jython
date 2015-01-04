@@ -2,7 +2,6 @@ package jython
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.JavaExec
 class JythonTask extends JavaExec {
-		def pythonPath=[]
 		
 		JythonTask(){
 			main 'org.python.util.jython'
