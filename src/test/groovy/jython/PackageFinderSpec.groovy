@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 class PackageFinderSpec extends Specification{
 
-    def "test listing"(){
+    def "can find an existing package archive"(){
 
         when:
         URL url=PackageFinder.findPackageArchive('Pygments', '2.0.2')
