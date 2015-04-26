@@ -1,10 +1,9 @@
 package jython
 
-import org.apache.ivy.util.url.ApacheURLLister
+import jython.util.PackageFinder
 import org.gradle.api.Project
 
 class JythonExtension {
-    def pypiBase="https://pypi.python.org/packages/source/"
 	Project project
 	
 	JythonExtension(Project project){
@@ -26,7 +25,7 @@ class JythonExtension {
 			project.logger.quiet "Skipping existing file ${name}-${version}.tar.gz"
 		else{
 
-			URL url = findDonloadUrl(name, version)
+			URL url = PackageFinder.findPackageArchive(name, version)
 						
 
 			project.download {
@@ -42,15 +41,7 @@ class JythonExtension {
 		}
 	}
 
-	private URL findDonloadUrl(name, version) {
-		def path = "${name[0]}/${name}"
 
-		def dir = "$project.jython.pypiBase${path}"
-		def urlLister = new ApacheURLLister()
-		def files = urlLister.listFiles(new URL(dir))
-		files.find { URL candidate -> candidate.path.toLowerCase().contains("$name-${version}.tar.gz".toLowerCase()) }
-
-	}
 
 	private untar(filename, name) {
 		project.ant.untar(
