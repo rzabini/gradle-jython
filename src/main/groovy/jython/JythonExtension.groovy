@@ -26,14 +26,14 @@ class JythonExtension {
 		else{
 
 			URL url = PackageFinder.findPackageArchive(name, version)
-						
+			def filename=url.file.substring( url.path.lastIndexOf('/')+1, url.path.length() )
 
 			project.download {
 				src url
-				dest "${project.buildDir}/jython"
+				dest "${project.buildDir}/jython/${filename}"
 			}
 
-			def filename=url.path.substring( url.path.lastIndexOf('/')+1, url.path.length() )
+
 			untar(filename, name)
 		}
 		project.dependencies{
