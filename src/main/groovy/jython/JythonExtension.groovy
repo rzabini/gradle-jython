@@ -29,7 +29,7 @@ class JythonExtension {
 			def filename=url.file.substring( url.path.lastIndexOf('/')+1, url.path.length() )
 
 			project.download {
-				logger.quiet "downloading $url"
+				project.logger.quiet "downloading $url"
 				src url
 				dest "${project.buildDir}/jython/${filename}"
 			}
