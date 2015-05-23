@@ -1,10 +1,19 @@
+buildscript{
+    repositories{
+        mavenCentral()
+    }
+}
+
 plugins{
 	id 'groovy'
 	id 'maven-publish'
 }
 
+apply from: 'gradle/version.gradle'
+
 group 'com.github.rzabini'
-version = '0.3.0-SNAPSHOT'
+
+
 
 repositories{
 	mavenCentral()
@@ -12,10 +21,10 @@ repositories{
 
 dependencies {
     compile gradleApi()
-	compile 'org.codehaus.groovy:groovy-all:2.3.10'
 	compile 'de.undercouch:gradle-download-task:1.2'
 
-	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3'
+	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3',
+            {exclude module: "groovy-all"}
 
 }
 
