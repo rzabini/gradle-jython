@@ -17,7 +17,7 @@ class PackageFinder {
         def doc = new XmlSlurper().parseText(text)
         def packageLink=doc.depthFirst().find {it.name() == "a" && it.text() == "$name-${version}.tar.gz"}
 
-        new URL("$dir/${packageLink.@href.text()}")
+        new URL("$dir/${packageLink.@href.text()}").toURI().normalize().toURL()
 
     }
 }
