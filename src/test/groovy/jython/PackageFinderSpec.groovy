@@ -9,8 +9,12 @@ class PackageFinderSpec extends Specification{
     def "can find an existing package archive"(){
 
         when:
-        URL url=PackageFinder.findPackageArchive('Pygments', '2.0.2')
+        URL url=PackageFinder.findPackageArchive(name, version)
         then:
-        url.file.endsWith('Pygments-2.0.2.tar.gz')
+        url.file.endsWith("$name-${version}.tar.gz")
+        where:
+        name        |version
+        'Pygments'  |'2.0.2'
+        'Sphinx'    |'1.3.1'
     }
 }
