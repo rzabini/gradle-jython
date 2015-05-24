@@ -9,8 +9,8 @@ plugins{
 	id 'maven-publish'
 }
 
-apply from: 'gradle/version.gradle'
-
+//apply from: 'gradle/version.gradle'
+version '1.0.3-SNAPSHOT'
 group 'com.github.rzabini'
 
 
