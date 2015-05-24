@@ -45,12 +45,14 @@ class JythonExtension {
 
 
 	private untar(filename, name) {
+		project.logger.quiet("untar $filename, $name")
 		project.ant.untar(
 				src: "$project.buildDir/jython/${filename}",
 				dest: "${project.buildDir}/jython",
 				compression: 'gzip'
 		) {
 			patternset {
+				include(name: "**/${name.toLowerCase()}.py")
 				include(name: "**/${name.toLowerCase()}/**/*")
 			}
 		}
