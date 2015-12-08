@@ -83,4 +83,21 @@ class JythonPluginSpec extends ProjectSpec {
         1 * testLogger._('Skipping existing file docutils-0.12.tar.gz')
         1 * testLogger._('untar docutils-0.12.tar.gz, docutils')
     }
+
+    def "fail when package does not exist"() {
+        when:
+        project.with {
+            apply plugin: PLUGIN
+            jython {
+                pypackage 'docutils:0.13'
+            }
+        }
+
+        then:
+        IllegalStateException ex = thrown()
+        ex.message == 'Could not download file'
+    }
+
+
+
 }
