@@ -23,11 +23,11 @@ import org.gradle.api.Project
  */
 class JythonExtension {
 	Project project
-	
+
 	JythonExtension(Project project) {
 		this.project = project
 	}
-	
+
 	void pypackage(String... pkgs) {
 		pkgs.each { pkg ->
 			installPackage(pkg)
@@ -39,7 +39,7 @@ class JythonExtension {
  * @param pkg  the package name
  */
 	void installPackage(String pkg) {
-	
+
 		project.file("${project.buildDir}/jython").mkdirs()
         String name, version
 		(name,version) = pkg.split(':')

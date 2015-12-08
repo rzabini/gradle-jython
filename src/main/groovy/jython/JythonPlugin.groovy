@@ -29,7 +29,7 @@ class JythonPlugin implements Plugin<Project> {
 
 			apply plugin: 'base'
 			apply plugin: 'de.undercouch.download'
-			
+
 			configurations.create('pythonpath')
 			repositories {
 				mavenCentral()
@@ -40,10 +40,10 @@ class JythonPlugin implements Plugin<Project> {
 			dependencies {
 				jython 'org.python:jython-standalone:2.7.0'
 			}
-			
+
 			extensions.create('jython', JythonExtension, project)
 		}
-		
+
 		project.task('cleanJython', type: Delete) {
 			delete "${project.buildDir}/jython"
 		}

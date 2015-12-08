@@ -22,17 +22,17 @@ import org.gradle.api.tasks.JavaExec
  * Allows the execution of jython commands and scripts.
  */
 class JythonTask extends JavaExec {
-		
+
 		JythonTask() {
 			main 'org.python.util.jython'
 			classpath project.configurations.jython.asPath
 		}
-		
+
 		@TaskAction
 		void exec() {
 			logger.info 'pythonpath:'
 			logger.info project.configurations.pythonpath.asPath
-			
+
 			systemProperties(['python.path': project.configurations.pythonpath.asPath])
 			super.exec()
 		}
