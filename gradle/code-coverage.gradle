@@ -1,5 +1,6 @@
 apply plugin: 'net.saliman.cobertura'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 
 cobertura {
     coverageFormats = ['html', 'xml']
