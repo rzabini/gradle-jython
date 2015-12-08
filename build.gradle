@@ -32,6 +32,23 @@ dependencies {
 
 }
 
+dependencies {
+    testCompile 'com.netflix.nebula:nebula-test:3.1.0', {
+        exclude module: 'groovy-all'
+    }
+}
+
+task integTest {
+    dependsOn test
+}
+
+test {
+    if (gradle.startParameter.taskNames.find { ['integTest', 'release'].contains(it) })
+        systemProperty 'integTest', 'true'
+    maxHeapSize = '512m'
+    jvmArgs '-XX:MaxPermSize=256m'
+}
+
 publishing {
 	publications {
 		plugin(MavenPublication) {

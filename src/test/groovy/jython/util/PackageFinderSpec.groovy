@@ -1,4 +1,4 @@
-package jython
+package jython.util
 
 import jython.util.PackageFinder
 import spock.lang.Specification
