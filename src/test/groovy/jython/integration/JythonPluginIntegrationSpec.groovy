@@ -76,6 +76,34 @@ class JythonPluginIntegrationSpec extends IntegrationSpec{
         notThrown(Exception)
     }
 
+    def "can execute imported package"(){
+        given:
+        int year = LocalDateTime.now().year
+        file('test.py').text=
+"""
+import arrow
+
+now= arrow.utcnow()
+print 'current datetime is: {}'.format(now)
+"""
+        when:
+        buildFile << buildscript()
+        buildFile << '''
+            apply plugin:'com.github.rzabini.gradle-jython'
+
+            jython{
+                pypackage 'python-dateutil:2.4.2','arrow:0.7.0', 'six:1.10.0'
+            }
+
+            task testJython(type:jython.JythonTask) {
+                script file('test.py')
+            }
+        '''.stripIndent()
+
+        then:
+        runGradleTask('testJython').find {line -> line.contains("current datetime is: $year")}
+    }
+
     boolean isWindows() {
         System.properties['os.name'].toLowerCase().contains('windows')
     }
