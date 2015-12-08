@@ -1,30 +1,32 @@
 # Overview
 This plugin allows you to execute a python script through [Jython](http://http://www.jython.org/)
 
-# Usage
-This plugin is still in dev stage, so it is not in any public repository.
-To use it, clone the repository from https://github.com/rzabini/gradle-jython.git and install it in the local Maven repository.
+# Setup
+#### Gradle >= 2.1
 
-```
-clone https://github.com/rzabini/gradle-jython.git
-cd gradle-jython
-gradlew publishToMavenLocal
-```
-
-To use the plugin, configure your `build.gradle` script and add the plugin:
 ```groovy
-buildscript{
-	repositories{
-		mavenLocal()
-		mavenCentral()
-	}
-	dependencies{
-		classpath 'com.github.rzabini:gradle-jython:0+'
-	}
+plugins {
+  id "com.github.rzabini.gradle-jython" version "1.0.0"
+}
+```
+
+#### Gradle < 2.1
+
+```groovy
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.github.rzabini:gradle-jython:1.0.0"
+  }
 }
 
-apply plugin:'com.github.rzabini.gradle-jython'
+apply plugin: "com.github.rzabini.gradle-jython"
 ```
+
 
 
  **JVM Compatibility:**
