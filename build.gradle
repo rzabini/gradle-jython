@@ -4,6 +4,7 @@ apply from: 'gradle/compile.gradle'
 apply from: 'gradle/publishing.gradle'
 apply from: 'gradle/code-quality.gradle'
 apply from: 'gradle/code-coverage.gradle'
+apply from: 'gradle/publish-plugin.gradle'
 
 buildscript {
 	repositories {
@@ -17,12 +18,15 @@ buildscript {
         classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0'
         classpath "ru.vyarus:gradle-quality-plugin:1.0.2"
         classpath 'net.saliman:gradle-cobertura-plugin:2.2.8'
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.2"
     }
 }
 
 group 'com.github.rzabini'
 
-
+release {
+    versionStrategy org.ajoberstar.gradle.git.release.semver.RebuildVersionStrategy.INSTANCE
+}
 
 repositories {
 	mavenCentral()
@@ -45,6 +49,13 @@ dependencies {
 
 task integTest {
     dependsOn test
+}
+
+tasks.release {
+    dependsOn build
+    finalizedBy publishPlugins
+    if(tasks.findByPath('bintrayUpload')) { finalizedBy 'bintrayUpload' }
+    if(tasks.findByPath('artifactoryPublish')) { finalizedBy 'artifactoryPublish' }
 }
 
 test {

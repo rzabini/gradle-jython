@@ -1,0 +1,21 @@
+apply plugin: 'com.gradle.plugin-publish'
+
+pluginBundle {
+    website = 'https://github.com/rzabini/gradle-jython'
+    vcsUrl = 'https://github.com/rzabini/gradle-jython'
+    description = 'Allows execution of jython commands and scripts'
+    tags = ['jython']
+
+    plugins {
+        jythonPlugin {
+            id = 'com.github.rzabini.gradle-jython'
+            displayName = 'gradle-jython'
+        }
+    }
+}
+
+tasks.publishPlugins {
+    onlyIf {
+        !project.version.toString().endsWith('-SNAPSHOT')
+    }
+}
