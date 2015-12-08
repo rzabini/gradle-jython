@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     compile gradleApi()
-	compile 'de.undercouch:gradle-download-task:1.2'
+	compile 'de.undercouch:gradle-download-task:2.0.0'
 
 	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3',
             {exclude module: "groovy-all"}
