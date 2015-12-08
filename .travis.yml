@@ -1,0 +1,26 @@
+sudo: false
+language: groovy
+jdk: oraclejdk7
+env: TERM=dumb
+cache:
+  directories:
+  - $HOME/.gradle
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
+before_install:
+  - git fetch --unshallow
+  - git config user.email "rzabini@@users.noreply.github.com"
+  - git config user.name "Travis-CI"
+  - git config url.https://.insteadOf git://
+  - git checkout -qf $TRAVIS_BRANCH
+# skip default gradlew assemble
+install:
+  - echo "skip default gradlew assemble"
+script:
+- './gradlew build --info --stacktrace'
+
+
+after_success:
+  - ./gradlew jacocoTestReport coveralls
