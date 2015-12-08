@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/rzabini/gradle-jython/badge.svg?branch=master&service=github)](https://coveralls.io/github/rzabini/gradle-jython?branch=master)
+
 # Overview
 This plugin allows you to execute a python script through [Jython](http://http://www.jython.org/)
 
