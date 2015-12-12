@@ -17,6 +17,7 @@ package jython.util
 
 import groovy.util.logging.Slf4j
 import groovy.util.slurpersupport.GPathResult
+import jython.JythonPackage
 
 /**
  * Finds the URL to download a package from the Python Package Index site.
@@ -47,5 +48,10 @@ class PackageFinder {
         Object packageLink=doc.depthFirst().find { it.name() == 'a' && it.text() == "$name-${version}.tar.gz" }
 
         new URL("$dir/${packageLink?.@href?.text()}").toURI().normalize().toURL()
+    }
+
+    static URL findPackageArchive(JythonPackage jythonPackage) {
+        findPackageArchive(jythonPackage.name, jythonPackage.version)
+
     }
 }

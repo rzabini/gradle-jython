@@ -1,3 +1,4 @@
+package jython
 /*
  * Copyright 2015 the original author or authors.
  *
@@ -13,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jython
+
 
 import jython.util.PackageFinder
 import org.gradle.api.Project
@@ -23,6 +24,7 @@ import org.gradle.api.Project
  */
 class JythonExtension {
 	Project project
+	List<JythonPackage> packages = []
 
 	JythonExtension(Project project) {
 		this.project = project
@@ -30,7 +32,9 @@ class JythonExtension {
 
 	void pypackage(String... pkgs) {
 		pkgs.each { pkg ->
-			installPackage(pkg)
+			JythonPackage jythonPackage = new JythonPackage(pkg)
+            packages << jythonPackage
+			installPackage(jythonPackage)
 		}
 	}
 
@@ -38,47 +42,60 @@ class JythonExtension {
  * Downloads and extracts a python package into build/jython directory
  * @param pkg  the package name
  */
-	void installPackage(String pkg) {
+	void installPackage(JythonPackage pkg) {
 
 		project.file("${project.buildDir}/jython").mkdirs()
-        String name, version
-		(name,version) = pkg.split(':')
-			project.logger.info "Downloading $name, version $version"
-		if (project.file("$project.buildDir/jython/${name}-${version}.tar.gz").exists()) {
-			project.logger.quiet "Skipping existing file ${name}-${version}.tar.gz"
-		} else {
-			URL url = PackageFinder.findPackageArchive(name, version)
-			String filename = downloadPackage(url)
-			untar(filename, name)
-		}
-		project.dependencies {
+
+		project.logger.info "Downloading $pkg.name, version $pkg.version"
+
+			URL url = PackageFinder.findPackageArchive(pkg.name, pkg.version)
+			downloadPackage(pkg)
+			//untar(filename, name, version)
+
+		/*project.dependencies {
 			pythonpath project.files("${project.buildDir}/jython/${name}-${version}")
-		}
+		}*/
 	}
 
-	private String downloadPackage(URL url) {
-		String filename = url.file [url.path.lastIndexOf('/') + 1 .. -1]
+	private void downloadPackage(JythonPackage jythonPackage) {
+		URL url = PackageFinder.findPackageArchive(jythonPackage)
+        jythonPackage.fileName = url.file [url.path.lastIndexOf('/') + 1 .. -1]
+        String destinationFile = "${project.buildDir}/jython/${jythonPackage.fileName}"
 
-		project.download {
-			project.logger.quiet "downloading $url"
-			src url
-			dest "${project.buildDir}/jython/${filename}"
-		}
-		filename
+        if(project.file(destinationFile).exists()){
+            project.logger.quiet "Skipping existing file ${jythonPackage.fileName}"
+        }else {
+            project.download {
+                project.logger.quiet "downloading $url"
+                src url
+                dest destinationFile
+            }
+        }
+
 	}
 
-	private untar(filename, name) {
-		project.logger.quiet("untar $filename, $name")
-		project.ant.untar(
-				src: "$project.buildDir/jython/${filename}",
-				dest: "${project.buildDir}/jython",
-				compression: 'gzip'
-		) {
-			patternset {
-				include(name: "**/${name.toLowerCase()}.py")
-				include(name: "**/${name.toLowerCase()}/**/*")
-				include(name: "**/${name.toLowerCase() - 'python-'}/**/*")
-			}
-		}
-	}
+	public void addPackagesToClasspath() {
+		packages.each { JythonPackage jythonPackage ->
+            project.logger.quiet("untar ${jythonPackage.fileName}, ${jythonPackage.name}")
+            project.ant.untar(
+                    src: "$project.buildDir/jython/${jythonPackage.fileName}",
+                    dest: "${project.buildDir}/classes/main",
+                    compression: 'gzip'
+            ) {
+                patternset {
+                    include(name: "**/${jythonPackage.name.toLowerCase()}.py")
+                    include(name: "**/${jythonPackage.name.toLowerCase()}/**/*")
+                    include(name: "**/${jythonPackage.name.toLowerCase() - 'python-'}/**/*")
+                }
+                mapper(type:'regexp', from: "${jythonPackage.name}-${jythonPackage.version}/(.+)", to:'\\1')
+            }
+        }
+
+        project.dependencies {
+            pythonpath project.files("${project.buildDir}/classes/main")
+        }
+    }
+
+
+
 }

@@ -30,7 +30,6 @@ class JythonPluginSpec extends ProjectSpec {
         AbstractProject.buildLogger = testLogger
     }
 
-
     def 'apply does not throw exceptions'() {
         when:
         project.apply plugin: PLUGIN
@@ -58,14 +57,11 @@ class JythonPluginSpec extends ProjectSpec {
         }
 
         then:
-        project.file("${project.buildDir}/jython/docutils-0.12").isDirectory()
-        project.file("${project.buildDir}/jython/docutils-0.12/docutils/__init__.py").isFile()
+        project.file("${project.buildDir}/jython/docutils-0.12.tar.gz").isFile()
     }
 
     def "do not download package more than once"(){
         when:
-
-
         project.with {
             apply plugin: PLUGIN
             jython {
@@ -75,13 +71,11 @@ class JythonPluginSpec extends ProjectSpec {
         }
 
         then:
-        project.file("${project.buildDir}/jython/docutils-0.12").isDirectory()
-        project.file("${project.buildDir}/jython/docutils-0.12/docutils/__init__.py").isFile()
+        project.file("${project.buildDir}/jython/docutils-0.12.tar.gz").isFile()
 
         2 * testLogger._('Downloading docutils, version 0.12')
         1 * testLogger._('downloading https://pypi.python.org/packages/source/d/docutils/docutils-0.12.tar.gz#md5=4622263b62c5c771c03502afa3157768')
         1 * testLogger._('Skipping existing file docutils-0.12.tar.gz')
-        1 * testLogger._('untar docutils-0.12.tar.gz, docutils')
     }
 
     def "fail when package does not exist"() {
@@ -97,7 +91,4 @@ class JythonPluginSpec extends ProjectSpec {
         IllegalStateException ex = thrown()
         ex.message == 'Could not download file'
     }
-
-
-
 }

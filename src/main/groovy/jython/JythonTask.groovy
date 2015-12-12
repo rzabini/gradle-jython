@@ -26,6 +26,7 @@ class JythonTask extends JavaExec {
 		JythonTask() {
 			main 'org.python.util.jython'
 			classpath project.configurations.jython.asPath
+			dependsOn 'jythonClasses'
 		}
 
 		@TaskAction
@@ -33,7 +34,8 @@ class JythonTask extends JavaExec {
 			logger.info 'pythonpath:'
 			logger.info project.configurations.pythonpath.asPath
 
-			systemProperties(['python.path': project.configurations.pythonpath.asPath])
+			//systemProperties(['python.path': project.configurations.pythonpath.asPath])
+			systemProperties(['python.path': "${project.buildDir}/classes/main"])
 			super.exec()
 		}
 
