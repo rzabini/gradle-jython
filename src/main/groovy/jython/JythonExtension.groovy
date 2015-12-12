@@ -39,8 +39,8 @@ class JythonExtension {
 	}
 
 /**
- * Downloads and extracts a python package into build/jython directory
- * @param pkg  the package name
+ * Downloads a python package into build/jython directory
+ * @param pkg  the package to download
  */
 	void installPackage(JythonPackage pkg) {
 
@@ -49,16 +49,11 @@ class JythonExtension {
 		project.logger.info "Downloading $pkg.name, version $pkg.version"
 
 			URL url = PackageFinder.findPackageArchive(pkg.name, pkg.version)
-			downloadPackage(pkg)
-			//untar(filename, name, version)
-
-		/*project.dependencies {
-			pythonpath project.files("${project.buildDir}/jython/${name}-${version}")
-		}*/
+			downloadJythonPackage(pkg)
 	}
 
-	private void downloadPackage(JythonPackage jythonPackage) {
-		URL url = PackageFinder.findPackageArchive(jythonPackage)
+    void downloadJythonPackage(JythonPackage jythonPackage){
+        URL url = PackageFinder.findPackageArchive(jythonPackage)
         jythonPackage.fileName = url.file [url.path.lastIndexOf('/') + 1 .. -1]
         String destinationFile = "${project.buildDir}/jython/${jythonPackage.fileName}"
 
@@ -71,11 +66,13 @@ class JythonExtension {
                 dest destinationFile
             }
         }
-
-	}
+    }
 
 	public void addPackagesToClasspath() {
 		packages.each { JythonPackage jythonPackage ->
+
+            downloadJythonPackage(jythonPackage)
+
             project.logger.quiet("untar ${jythonPackage.fileName}, ${jythonPackage.name}")
             project.ant.untar(
                     src: "$project.buildDir/jython/${jythonPackage.fileName}",

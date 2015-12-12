@@ -101,7 +101,11 @@ print 'current datetime is: {}'.format(now)
         '''.stripIndent()
 
         then:
-        runGradleTask('testJython').find {line -> line.contains("current datetime is: $year")}
+        executeGradleWrapper('clean', 'testJython').find { line -> line.contains("current datetime is: $year")}
+    }
+
+    private String gradleWrapperExecutable() {
+        "${isWindows() ? 'gradlew.bat' : './gradlew'}"
     }
 
     boolean isWindows() {
@@ -116,12 +120,13 @@ print 'current datetime is: {}'.format(now)
         runTasksSuccessfully(':wrapper')
     }
 
-    def execute(File dir = projectDir, String... args) {
+    def executeGradleWrapper(File dir = projectDir, String... args) {
         println "========"
-        println "executing ${args.join(' ')}"
+        println "executing gradlew ${args.join(' ')}"
         println "--------"
         def lines=[]
-        def process = new ProcessBuilder(args)
+        List<String> gradlewCommand = [gradleWrapperExecutable()] + args.toList()
+        def process = new ProcessBuilder(gradlewCommand)
                 .directory(dir)
                 .redirectErrorStream(true)
                 .start()
@@ -135,7 +140,4 @@ print 'current datetime is: {}'.format(now)
         return lines
     }
 
-    def runGradleTask(String task){
-        execute "${isWindows() ? 'gradlew.bat' : './gradlew'}", task
-    }
 }
