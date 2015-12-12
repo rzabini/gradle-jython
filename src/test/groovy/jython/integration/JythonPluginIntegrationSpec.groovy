@@ -87,4 +87,36 @@ print 'current datetime is: {}'.format(now)
         executeGradleWrapper('clean', 'testJython').find { line -> line.contains("current datetime is: $year")}
     }
 
+    def "jython source files are in execution path"(){
+        when:
+        file('src/main/jython/mymodule.py').text =
+'''
+class MyClass:
+    """A simple example class"""
+    def f(self):
+        return 'hello world'
+'''
+        file('test.py').text =
+'''
+from mymodule import MyClass
+x = MyClass()
+print x.f()
+'''
+        buildFile << buildscript()
+        buildFile << '''
+            apply plugin:'com.github.rzabini.gradle-jython'
+
+            task testJython(type:jython.JythonTask) {
+                script file('test.py')
+            }
+        '''.stripIndent()
+
+        ExecutionResult result = runTasksSuccessfully('testJython')
+
+        then:
+        notThrown(Exception)
+    }
+
+
+
 }

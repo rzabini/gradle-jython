@@ -50,10 +50,12 @@ class JythonPlugin implements Plugin<Project> {
 
 		project.task('jythonClasses') << {
             project.jython.addPackagesToClasspath()
+            project.copy {
+                from 'src/main/jython'
+                into "${project.buildDir}/classes/main"
+            }
         }
 
-        // https://discuss.gradle.org/t/illegalstateexception-cannot-add-mutate-rule/10541/5
         project.tasks.matching { it.name == 'classes' }.all { dependsOn 'jythonClasses' }
-        //project.tasks['assemble'].dependsOn('jythonClasses')
 	}
 }
