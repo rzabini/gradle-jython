@@ -1,4 +1,3 @@
-package jython
 /*
  * Copyright 2015 the original author or authors.
  *
@@ -14,7 +13,7 @@ package jython
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+package jython
 
 import jython.util.PackageFinder
 import org.gradle.api.Project
@@ -47,19 +46,17 @@ class JythonExtension {
 		project.file("${project.buildDir}/jython").mkdirs()
 
 		project.logger.info "Downloading $pkg.name, version $pkg.version"
-
-			URL url = PackageFinder.findPackageArchive(pkg.name, pkg.version)
-			downloadJythonPackage(pkg)
+	        downloadJythonPackage(pkg)
 	}
 
-    void downloadJythonPackage(JythonPackage jythonPackage){
+    void downloadJythonPackage(JythonPackage jythonPackage) {
         URL url = PackageFinder.findPackageArchive(jythonPackage)
         jythonPackage.fileName = url.file [url.path.lastIndexOf('/') + 1 .. -1]
         String destinationFile = "${project.buildDir}/jython/${jythonPackage.fileName}"
 
-        if(project.file(destinationFile).exists()){
+        if (project.file(destinationFile).exists()) {
             project.logger.quiet "Skipping existing file ${jythonPackage.fileName}"
-        }else {
+        } else {
             project.download {
                 project.logger.quiet "downloading $url"
                 src url
@@ -68,7 +65,7 @@ class JythonExtension {
         }
     }
 
-	public void addPackagesToClasspath() {
+	void addPackagesToClasspath() {
 		packages.each { JythonPackage jythonPackage ->
 
             downloadJythonPackage(jythonPackage)
@@ -84,7 +81,7 @@ class JythonExtension {
                     include(name: "**/${jythonPackage.name.toLowerCase()}/**/*")
                     include(name: "**/${jythonPackage.name.toLowerCase() - 'python-'}/**/*")
                 }
-                mapper(type:'regexp', from: "${jythonPackage.name}-${jythonPackage.version}/(.+)", to:'\\1')
+                mapper(type: 'regexp', from: "${jythonPackage.name}-${jythonPackage.version}/(.+)", to: '\\1')
             }
         }
 
@@ -92,7 +89,4 @@ class JythonExtension {
             pythonpath project.files("${project.buildDir}/classes/main")
         }
     }
-
-
-
 }

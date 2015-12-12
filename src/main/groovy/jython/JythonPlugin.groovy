@@ -23,7 +23,10 @@ import org.gradle.api.tasks.Delete
  * Enables the gradle project to execute jython code, either as a command or as a script.
  */
 class JythonPlugin implements Plugin<Project> {
-	void apply(Project project) {
+
+    public static final String JYTHON_CLASSES_TASK_NAME = 'jythonClasses'
+
+    void apply(Project project) {
 		assert org.gradle.api.JavaVersion.current().java7Compatible, 'at least Java 7 is needed'
 		project.with {
 
@@ -48,7 +51,7 @@ class JythonPlugin implements Plugin<Project> {
 			delete "${project.buildDir}/jython"
 		}
 
-		project.task('jythonClasses') << {
+		project.task(JYTHON_CLASSES_TASK_NAME) << {
             project.jython.addPackagesToClasspath()
             project.copy {
                 from 'src/main/jython'
@@ -56,6 +59,6 @@ class JythonPlugin implements Plugin<Project> {
             }
         }
 
-        project.tasks.matching { it.name == 'classes' }.all { dependsOn 'jythonClasses' }
+        project.tasks.matching { it.name == 'classes' }.all { dependsOn JYTHON_CLASSES_TASK_NAME }
 	}
 }
