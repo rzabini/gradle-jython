@@ -75,7 +75,7 @@ print 'current datetime is: {}'.format(now)
             apply plugin:'com.github.rzabini.gradle-jython'
 
             jython{
-                pypackage 'python-dateutil:2.4.2','arrow:0.7.0', 'six:1.10.0'
+                pypackage 'requests:2.12.3','python-dateutil:2.4.2','arrow:0.7.0', 'six:1.10.0'
             }
 
             task testJython(type:jython.JythonTask) {
