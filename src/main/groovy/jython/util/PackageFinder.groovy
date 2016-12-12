@@ -44,8 +44,8 @@ class PackageFinder {
 
         String text=dir.toURL().text
 
-        def parser = new XmlSlurper()
-        parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
+        XmlSlurper parser = new XmlSlurper()
+        parser.setFeature('http://apache.org/xml/features/disallow-doctype-decl', false)
         GPathResult doc = parser.parseText(text)
         Object packageLink=doc.depthFirst().find { it.name() == 'a' && it.text() == "$name-${version}.tar.gz" }
 
