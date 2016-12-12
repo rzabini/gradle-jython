@@ -74,7 +74,7 @@ class JythonPluginSpec extends ProjectSpec {
         project.file("${project.buildDir}/jython/docutils-0.12.tar.gz").isFile()
 
         2 * testLogger._('Downloading docutils, version 0.12')
-        1 * testLogger._('downloading https://pypi.python.org/packages/source/d/docutils/docutils-0.12.tar.gz#md5=4622263b62c5c771c03502afa3157768')
+        1 * testLogger._({it =~ 'downloading https://pypi.python.org/packages/.*/docutils-0.12.tar.gz#md5=4622263b62c5c771c03502afa3157768'})
         1 * testLogger._('Skipping existing file docutils-0.12.tar.gz')
     }
 
