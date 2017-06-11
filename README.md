@@ -63,7 +63,7 @@ The plugin does not automatically resolve python dependencies, so these must be 
 
 # Acknowledgements
 This plugin uses the [gradle-download-task](https://github.com/michel-kraemer/gradle-download-task) by Michel Krämer.
-The semantic version numbering of this plugin is handled by the [gradle-semanti-release-plugin](https://github.com/tschulte/gradle-semantic-release-plugin) by Tobias Schulte. From (the code of) this plugin I also adopted the integration testing strategy.
+The semantic version numbering of this plugin is handled by the [gradle-semantic-release-plugin](https://github.com/tschulte/gradle-semantic-release-plugin) by Tobias Schulte. From (the code of) this plugin I also adopted the integration testing strategy.
 
 # License
 This plugin is available under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
