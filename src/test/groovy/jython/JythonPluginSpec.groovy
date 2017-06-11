@@ -91,4 +91,17 @@ class JythonPluginSpec extends ProjectSpec {
         IllegalStateException ex = thrown()
         ex.message == 'Could not download file'
     }
+
+    def "can download existing package ignoring case in package name"(){
+        when:
+            project.with {
+                apply plugin: PLUGIN
+                jython {
+                    pypackage 'sqlalchemy:0.8.5'
+                }
+            }
+
+        then:
+            project.file("${project.buildDir}/jython/SQLAlchemy-0.8.5.tar.gz").isFile()
+    }
 }
