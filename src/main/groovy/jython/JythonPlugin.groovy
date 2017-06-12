@@ -26,7 +26,8 @@ class JythonPlugin implements Plugin<Project> {
 
     public static final String JYTHON_CLASSES_TASK_NAME = 'jythonClasses'
 
-    void apply(Project project) {
+	@SuppressWarnings('ExplicitCallToLeftShiftMethod')
+	void apply(Project project) {
 		assert org.gradle.api.JavaVersion.current().java7Compatible, 'at least Java 7 is needed'
 		project.with {
 
@@ -51,7 +52,6 @@ class JythonPlugin implements Plugin<Project> {
 			delete "${project.buildDir}/jython"
 		}
 
-        @SuppressWarnings('ExplicitCallToLeftShiftMethod')
         project.task(JYTHON_CLASSES_TASK_NAME).leftShift {
             project.jython.addPackagesToClasspath()
             project.copy {
