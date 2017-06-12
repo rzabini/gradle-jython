@@ -51,7 +51,8 @@ class JythonPlugin implements Plugin<Project> {
 			delete "${project.buildDir}/jython"
 		}
 
-		project.task(JYTHON_CLASSES_TASK_NAME).leftShift {
+        @SuppressWarnings('ExplicitCallToLeftShiftMethod')
+        project.task(JYTHON_CLASSES_TASK_NAME).leftShift {
             project.jython.addPackagesToClasspath()
             project.copy {
                 from 'src/main/jython'
