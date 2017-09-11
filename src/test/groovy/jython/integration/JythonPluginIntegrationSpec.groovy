@@ -117,6 +117,29 @@ print x.f()
         notThrown(Exception)
     }
 
+    def "can execute imported package with name not matching filename"(){
+        given:
+        file('test.py').text=
+                """
+import requests_mock
+"""
+        when:
+        buildFile << buildscript()
+        buildFile << '''
+            apply plugin:'com.github.rzabini.gradle-jython'
+            
+            jython { pypackage 'requests-mock:1.3.0' }
+
+            task testJython(type:jython.JythonTask) {
+                script file('test.py')
+            }
+        '''.stripIndent()
+
+        and:
+        executeGradleWrapper('clean', 'testJython')
+        then:
+            notThrown(Exception)
+    }
 
 
 }
