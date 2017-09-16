@@ -37,6 +37,12 @@ class JythonExtension {
 		}
 	}
 
+    void pypackage(String pkg, Closure config) {
+        JythonPackage jythonPackage = new JythonPackage(pkg, config)
+        packages << jythonPackage
+        installPackage(jythonPackage)
+    }
+
 /**
  * Downloads a python package into build/jython directory
  * @param pkg  the package to download
@@ -77,9 +83,9 @@ class JythonExtension {
                     compression: 'gzip'
             ) {
                 patternset {
-                    include(name: "**/${jythonPackage.name.toLowerCase()}.py")
-                    include(name: "**/${jythonPackage.name.toLowerCase()}/**/*")
-                    include(name: "**/${jythonPackage.name.toLowerCase() - 'python-'}/**/*")
+                    include(name: "**/${jythonPackage.moduleName.toLowerCase()}.py")
+                    include(name: "**/${jythonPackage.moduleName.toLowerCase()}/**/*")
+                    include(name: "**/${jythonPackage.moduleName.toLowerCase() - 'python-'}/**/*")
                 }
                 mapper(type: 'regexp', from: "${jythonPackage.name}-${jythonPackage.version}/(.+)", to: '\\1')
             }

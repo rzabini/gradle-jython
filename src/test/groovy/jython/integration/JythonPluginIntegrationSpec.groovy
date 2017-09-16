@@ -128,7 +128,11 @@ import requests_mock
         buildFile << '''
             apply plugin:'com.github.rzabini.gradle-jython'
             
-            jython { pypackage 'requests-mock:1.3.0' }
+            jython { pypackage ('requests-mock:1.3.0') {
+                        module 'requests_mock'
+                     }
+                     pypackage 'requests:2.12.3','six:1.10.0'
+            }
 
             task testJython(type:jython.JythonTask) {
                 script file('test.py')
