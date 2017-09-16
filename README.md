@@ -58,7 +58,18 @@ jython {
     pypackage 'python-dateutil:2.4.2','arrow:0.7.0', 'six:1.10.0'
 }
 ```
-Use a string in the form *packageName*:*version*. The plugin will download and extract the python package distribution, and add it in the `pythonpath` environment variable used by tasks of class `JthonTask`.
+Use a string in the form *packageName*:*version*. The plugin will download and extract the python package distribution, and add it in the `pythonpath` environment variable used by tasks of class `JythonTask`.
+
+If the python module name is different from the package file name, it can be specified in a configuration closure, as in the following example:
+```groovy
+jython {
+    pypackage ('requests-mock:1.3.0') {
+        module 'requests_mock'
+    }
+    pypackage 'requests:2.12.3','six:1.10.0'
+}
+```
+
 The plugin does not automatically resolve python dependencies, so these must be declared explicitly, as in the previous example.
 
 # Acknowledgements
