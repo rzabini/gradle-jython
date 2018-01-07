@@ -41,7 +41,8 @@ The plugin adds the `jython.JythonTask` task type to your projects, which allows
 ## Configuration
 Add a task of type `jython.JythonTask` and set its `script` property to a string with a valid jython script, or to a file with a valid jython program
 
-## Example
+## Examples
+Inline script:
 ```groovy
 def sayHello="""
 print 'hello from $project.name'
@@ -49,6 +50,14 @@ print 'hello from $project.name'
 
 task testJython(type:jython.JythonTask) {
 	script sayHello
+}
+```
+
+External script:
+```groovy
+
+task testJython(type:jython.JythonTask) {
+	script file('scripts/sayHello.py')
 }
 ```
 
