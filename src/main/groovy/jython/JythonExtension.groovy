@@ -17,6 +17,7 @@ package jython
 
 import jython.util.PackageFinder
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger
 
 /**
  * Allows the gradle project to download python packages and use them in task execution.
@@ -24,9 +25,11 @@ import org.gradle.api.Project
 class JythonExtension {
 	Project project
 	List<JythonPackage> packages = []
+    Logger logger
 
 	JythonExtension(Project project) {
 		this.project = project
+        this.logger = project.logger
 	}
 
 	void pypackage(String... pkgs) {
@@ -48,11 +51,9 @@ class JythonExtension {
  * @param pkg  the package to download
  */
 	void installPackage(JythonPackage pkg) {
-
 		project.file("${project.buildDir}/jython").mkdirs()
-
-		project.logger.info "Downloading $pkg.name, version $pkg.version"
-	        downloadJythonPackage(pkg)
+		logger.quiet "Downloading $pkg.name, version $pkg.version"
+        downloadJythonPackage(pkg)
 	}
 
     void downloadJythonPackage(JythonPackage jythonPackage) {
@@ -61,10 +62,10 @@ class JythonExtension {
         String destinationFile = "${project.buildDir}/jython/${jythonPackage.fileName}"
 
         if (project.file(destinationFile).exists()) {
-            project.logger.quiet "Skipping existing file ${jythonPackage.fileName}"
+            logger.quiet "Skipping existing file ${jythonPackage.fileName}"
         } else {
             project.download {
-                project.logger.quiet "downloading $url"
+                logger.quiet "downloading $url"
                 src url
                 dest destinationFile
             }
@@ -76,7 +77,7 @@ class JythonExtension {
 
             downloadJythonPackage(jythonPackage)
 
-            project.logger.quiet("untar ${jythonPackage.fileName}, ${jythonPackage.name}")
+            logger.quiet("untar ${jythonPackage.fileName}, ${jythonPackage.name}")
             project.ant.untar(
                     src: "$project.buildDir/jython/${jythonPackage.fileName}",
                     dest: "${project.buildDir}/classes/main",

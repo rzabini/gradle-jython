@@ -35,15 +35,18 @@ repositories {
 
 dependencies {
     compile gradleApi()
-	compile 'de.undercouch:gradle-download-task:2.0.0'
+	compile 'de.undercouch:gradle-download-task:3.1.0'
 
-	testCompile 'org.spockframework:spock-core:1.0-groovy-2.3',
+	testCompile 'org.spockframework:spock-core:1.1-groovy-2.4',
             {exclude module: "groovy-all"}
+
+    testCompile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
 
 }
 
 dependencies {
-    testCompile 'com.netflix.nebula:nebula-test:3.1.0', {
+    testCompile 'com.netflix.nebula:nebula-test:6.2.0', {
         exclude module: 'groovy-all'
     }
 }
