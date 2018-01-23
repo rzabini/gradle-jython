@@ -25,7 +25,7 @@ class JythonTask extends JavaExec {
 
 		JythonTask() {
 			main 'org.python.util.jython'
-			classpath project.configurations.jython.asPath
+			classpath project.configurations.jython
 			dependsOn 'jythonClasses'
 		}
 
