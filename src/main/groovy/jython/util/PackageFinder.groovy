@@ -55,10 +55,11 @@ class PackageFinder {
             throw new IllegalStateException('Could not download file')
         }
 
-        if (new URI("${packageLink?.@href?.text()}").isAbsolute())
+        if (new URI("${packageLink?.@href?.text()}").isAbsolute()) {
             new URL("${packageLink?.@href?.text()}").toURI().normalize().toURL()
-        else
+        } else {
             new URL("$dir/${packageLink?.@href?.text()}").toURI().normalize().toURL()
+        }
 
     }
 
