@@ -51,7 +51,15 @@ class PackageFinder {
             it.name() == 'a' && it.text().equalsIgnoreCase("$name-${version}.tar.gz")
         }
 
-        new URL("$dir/${packageLink?.@href?.text()}").toURI().normalize().toURL()
+        if (!packageLink) {
+            throw new IllegalStateException('Could not download file')
+        }
+
+        if (new URI("${packageLink?.@href?.text()}").isAbsolute())
+            new URL("${packageLink?.@href?.text()}").toURI().normalize().toURL()
+        else
+            new URL("$dir/${packageLink?.@href?.text()}").toURI().normalize().toURL()
+
     }
 
     static URL findPackageArchive(JythonPackage jythonPackage) {
