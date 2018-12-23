@@ -34,8 +34,8 @@ class JythonTask extends JavaExec {
 			logger.info 'pythonpath:'
 			logger.info project.configurations.pythonpath.asPath
 
-			//systemProperties(['python.path': project.configurations.pythonpath.asPath])
-			systemProperties(['python.path': "${project.buildDir}/classes/main"])
+			systemProperties(['python.path': "${project.buildDir}/classes/main"
+							  + File.pathSeparator + "${project.buildDir}/classes/main/src"])
 			super.exec()
 		}
 

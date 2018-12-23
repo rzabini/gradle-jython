@@ -145,5 +145,37 @@ import requests_mock
             notThrown(Exception)
     }
 
+    def "can import package with sources in src directory"(){
+        given:
+
+            file('test.py').text=
+                    """
+import sys
+import urllib3
+
+
+print 'hello'
+"""
+        when:
+            buildFile << buildscript()
+            buildFile << '''
+            apply plugin:'com.github.rzabini.gradle-jython'
+
+            jython{
+                pypackage 'urllib3:1.24'
+            }
+
+            task testJython(type:jython.JythonTask) {
+                script file('test.py')
+            }
+        '''.stripIndent()
+
+        and:
+            executeGradleWrapper('clean', 'testJython')
+        then:
+            notThrown(Exception)
+    }
+
+
 
 }
