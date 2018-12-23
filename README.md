@@ -5,34 +5,10 @@
 This plugin allows you to execute a python script through [jython](http://http://www.jython.org/).
 
 # Setup
-#### Gradle >= 2.1
+Add plugin to your gradle build file according to:
+https://plugins.gradle.org/plugin/com.github.rzabini.gradle-jython
 
-```groovy
-plugins {
-  id "com.github.rzabini.gradle-jython" version "1.0.9"
-}
-```
-
-#### Gradle < 2.1
-
-```groovy
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "gradle.plugin.com.github.rzabini:gradle-jython:1.0.9
-  }
-}
-
-apply plugin: "com.github.rzabini.gradle-jython"
-```
-
-
-
- **JVM Compatibility:**
+**JVM Compatibility:**
 Java 7 and above (as requested by Jython 2.7)
 
 ## Tasks
