@@ -9,7 +9,7 @@ This plugin allows you to execute a python script through [jython](http://http:/
 
 ```groovy
 plugins {
-  id "com.github.rzabini.gradle-jython" version "1.0.0"
+  id "com.github.rzabini.gradle-jython" version "1.0.9"
 }
 ```
 
@@ -23,7 +23,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "gradle.plugin.com.github.rzabini:gradle-jython:1.0.0"
+    classpath "gradle.plugin.com.github.rzabini:gradle-jython:1.0.9
   }
 }
 
