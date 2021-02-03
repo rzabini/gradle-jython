@@ -44,6 +44,8 @@ class PackageFinder {
 
         String text=dir.toURL().text
 
+        text = text.replaceAll('<meta [^>]*>', '')
+
         XmlSlurper parser = new XmlSlurper()
         parser.setFeature('http://apache.org/xml/features/disallow-doctype-decl', false)
         GPathResult doc = parser.parseText(text)
