@@ -35,8 +35,21 @@ class JythonTask extends JavaExec {
 			logger.info project.configurations.pythonpath.asPath
 
 			systemProperties(['python.path': "${project.buildDir}/classes/main"
-							  + File.pathSeparator + "${project.buildDir}/classes/main/src"])
+								+ collectSrcDirectories(project.buildDir)
+			])
 			super.exec()
+		}
+
+		static String collectSrcDirectories(File buildDir) {
+			String path=''
+			if (buildDir.exists()) {
+				buildDir.eachDirRecurse { File dir ->
+					if (dir.name == 'src') {
+						path = path + File.pathSeparator + dir.absolutePath
+					}
+				}
+			}
+			return path
 		}
 
         void script (String script) {

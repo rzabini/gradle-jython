@@ -147,28 +147,11 @@ import requests_mock
 
     def "can import package with sources in src directory"(){
         given:
+            file('test.py').text = scriptWithImport('urllib3')
 
-            file('test.py').text=
-                    """
-import sys
-import urllib3
-
-
-print 'hello'
-"""
         when:
             buildFile << buildscript()
-            buildFile << '''
-            apply plugin:'com.github.rzabini.gradle-jython'
-
-            jython{
-                pypackage 'urllib3:1.24'
-            }
-
-            task testJython(type:jython.JythonTask) {
-                script file('test.py')
-            }
-        '''.stripIndent()
+            buildFile << buildWithPackage('urllib3', '1.24')
 
         and:
             executeGradleWrapper('clean', 'testJython')
@@ -176,6 +159,41 @@ print 'hello'
             notThrown(Exception)
     }
 
+    def "can import package with sources in src subdirectory"(){
+        given:
+            file('test.py').text = scriptWithImport('markupsafe')
+
+        when:
+            buildFile << buildscript()
+            buildFile << buildWithPackage('markupsafe', '1.1.1')
+
+        and:
+            executeGradleWrapper('clean', 'testJython')
+        then:
+            notThrown(Exception)
+    }
+
+    def scriptWithImport(String module) {
+        """
+import sys
+import ${module}
 
 
+print 'hello'
+"""
+    }
+
+    def buildWithPackage(String module, String version) {
+        """
+            apply plugin:'com.github.rzabini.gradle-jython'
+
+            jython{
+                pypackage '${module}:${version}'
+            }
+
+            task testJython(type:jython.JythonTask) {
+                script file('test.py')
+            }
+        """.stripIndent()
+    }
 }
