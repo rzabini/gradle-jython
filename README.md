@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rzabini/gradle-jython.svg?branch=master)](https://travis-ci.org/rzabini/gradle-jython)
+![Build Status](https://github.com/rzabini/gradle-jython/actions/workflows/gradle.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/rzabini/gradle-jython/badge.svg?branch=master&service=github)](https://coveralls.io/github/rzabini/gradle-jython?branch=master)
 
 # Overview
