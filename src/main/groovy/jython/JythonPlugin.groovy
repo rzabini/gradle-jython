@@ -42,7 +42,7 @@ class JythonPlugin implements Plugin<Project> {
 			configurations { jython }
 
 			dependencies {
-				jython 'org.python:jython-standalone:2.7.0'
+				jython 'org.python:jython-standalone:2.7.2'
 			}
 
 			extensions.create('jython', JythonExtension, project)
