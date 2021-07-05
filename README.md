@@ -1,4 +1,4 @@
-![Build Status](https://github.com/rzabini/gradle-jython/actions/workflows/gradle.yml/badge.svg)
+[![Build Status](https://github.com/rzabini/gradle-jython/actions/workflows/gradle.yml/badge.svg)](https://github.com/rzabini/gradle-jython/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/rzabini/gradle-jython/badge.svg?branch=master&service=github)](https://coveralls.io/github/rzabini/gradle-jython?branch=master)
 
 # Overview
